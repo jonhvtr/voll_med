@@ -2,6 +2,6 @@ package med.voll.api.domain.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public record DadosUpdateMedico(
-        @NotNull Long id, String nome, String telefone, DadosEndereco endereco) {
+public record DataUpdateDoctor(
+        @NotNull Long id, String nome, String telefone, DataAddress endereco) {
 }
