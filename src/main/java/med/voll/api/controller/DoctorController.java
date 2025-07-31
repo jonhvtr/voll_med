@@ -2,8 +2,8 @@ package med.voll.api.controller;
 
 import jakarta.validation.Valid;
 import med.voll.api.domain.dto.DataDetailsDoctor;
-import med.voll.api.domain.dto.DataListDoctor;
 import med.voll.api.domain.dto.DataDoctor;
+import med.voll.api.domain.dto.DataListDoctor;
 import med.voll.api.domain.dto.DataUpdateDoctor;
 import med.voll.api.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,36 +27,36 @@ public class DoctorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DataDetailsDoctor> cadastrar(@RequestBody @Valid DataDoctor dados,
-                                                       UriComponentsBuilder uriBuilder) {
-        var medico = doctorService.cadastrar(dados);
-        var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.id()).toUri();
-        return ResponseEntity.created(uri).body(medico);
+    public ResponseEntity<DataDetailsDoctor> createDoctor(@RequestBody @Valid DataDoctor data,
+                                                          UriComponentsBuilder uriBuilder) {
+        var doctor = doctorService.create(data);
+        var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(doctor.id()).toUri();
+        return ResponseEntity.created(uri).body(doctor);
     }
 
     @GetMapping
-    public ResponseEntity<Page<DataListDoctor>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
-        var page = doctorService.listarAll(pageable);
+    public ResponseEntity<Page<DataListDoctor>> listAllDoctor(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
+        var page = doctorService.findAll(pageable);
         return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DataDetailsDoctor> detailsMedico(@PathVariable Long id) {
-        var medicoUrl = doctorService.findDoctor(id);
-        return ResponseEntity.ok(medicoUrl);
+    public ResponseEntity<DataDetailsDoctor> detailsDoctor(@PathVariable Long id) {
+        var doctorUrl = doctorService.findDoctor(id);
+        return ResponseEntity.ok(doctorUrl);
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity<DataDetailsDoctor> atualizar(@RequestBody @Valid DataUpdateDoctor dados) {
-        var dto = doctorService.atualizar(dados);
+    public ResponseEntity<DataDetailsDoctor> udpateDoctor(@RequestBody @Valid DataUpdateDoctor data) {
+        var dto = doctorService.update(data);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> excluir(@PathVariable Long id) {
-        doctorService.excluir(id);
+    public ResponseEntity<?> deleteDoctor(@PathVariable Long id) {
+        doctorService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
