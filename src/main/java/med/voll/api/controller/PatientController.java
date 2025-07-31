@@ -27,37 +27,37 @@ public class PatientController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DataDetailsPatient> cadastrar(@RequestBody @Valid DataPatient dados,
+    public ResponseEntity<DataDetailsPatient> createPatient(@RequestBody @Valid DataPatient data,
                                                         UriComponentsBuilder uriBuilder) {
-        var paciente = patientService.cadastrar(dados);
-        var uri = uriBuilder.path("/paciente/{id}").buildAndExpand(paciente.id()).toUri();
-        return ResponseEntity.created(uri).body(paciente);
+        var patient = patientService.create(data);
+        var uri = uriBuilder.path("/patient/{id}").buildAndExpand(patient.id()).toUri();
+        return ResponseEntity.created(uri).body(patient);
     }
 
     @GetMapping
-    public ResponseEntity<Page<DataListPatient>> listPacientes(@PageableDefault(size = 10, sort = {"nome"})
+    public ResponseEntity<Page<DataListPatient>> listAllPatient(@PageableDefault(size = 10, sort = {"nome"})
                                                                  Pageable pageable) {
-        var pacientes = patientService.listarAll(pageable);
-        return ResponseEntity.ok().body(pacientes);
+        var patients = patientService.findAll(pageable);
+        return ResponseEntity.ok().body(patients);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DataDetailsPatient> detailsPaciente(@PathVariable Long id) {
-        var paciente = patientService.findPaciente(id);
-        return ResponseEntity.ok().body(paciente);
+    public ResponseEntity<DataDetailsPatient> detailsPatient(@PathVariable Long id) {
+        var patient = patientService.findPatient(id);
+        return ResponseEntity.ok().body(patient);
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity<DataDetailsPatient> atualizar(@RequestBody @Valid DataUpdatePatient dados) {
-        var dto = patientService.atualizar(dados);
+    public ResponseEntity<DataDetailsPatient> updatePatient(@RequestBody @Valid DataUpdatePatient data) {
+        var dto = patientService.udpate(data);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> excluir(@PathVariable Long id) {
-        patientService.excluir(id);
+    public ResponseEntity<?> deletePatient(@PathVariable Long id) {
+        patientService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
