@@ -1,10 +1,10 @@
 package med.voll.api.controller;
 
 import jakarta.validation.Valid;
-import med.voll.api.domain.dto.DadosDetalhamentoMedico;
-import med.voll.api.domain.dto.DadosListMedico;
-import med.voll.api.domain.dto.DadosMedico;
-import med.voll.api.domain.dto.DadosUpdateMedico;
+import med.voll.api.domain.dto.DataDetailsDoctor;
+import med.voll.api.domain.dto.DataListDoctor;
+import med.voll.api.domain.dto.DataDoctor;
+import med.voll.api.domain.dto.DataUpdateDoctor;
 import med.voll.api.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,39 +17,38 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/medicos")
-public class MedicoController {
+public class DoctorController {
     @Autowired
     private final DoctorService doctorService;
 
-    public MedicoController(DoctorService doctorService) {
+    public DoctorController(DoctorService doctorService) {
         this.doctorService = doctorService;
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DadosDetalhamentoMedico> cadastrar(@RequestBody @Valid DadosMedico dados,
-                                                             UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DataDetailsDoctor> cadastrar(@RequestBody @Valid DataDoctor dados,
+                                                       UriComponentsBuilder uriBuilder) {
         var medico = doctorService.cadastrar(dados);
         var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.id()).toUri();
         return ResponseEntity.created(uri).body(medico);
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosListMedico>> listar(@PageableDefault(size = 10, sort = {"nome"})
-                                                            Pageable pageable) {
+    public ResponseEntity<Page<DataListDoctor>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
         var page = doctorService.listarAll(pageable);
         return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DadosDetalhamentoMedico> detailsMedico(@PathVariable Long id) {
+    public ResponseEntity<DataDetailsDoctor> detailsMedico(@PathVariable Long id) {
         var medicoUrl = doctorService.findDoctor(id);
         return ResponseEntity.ok(medicoUrl);
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity<DadosDetalhamentoMedico> atualizar(@RequestBody @Valid DadosUpdateMedico dados) {
+    public ResponseEntity<DataDetailsDoctor> atualizar(@RequestBody @Valid DataUpdateDoctor dados) {
         var dto = doctorService.atualizar(dados);
         return ResponseEntity.ok(dto);
     }
