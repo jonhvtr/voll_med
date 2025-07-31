@@ -50,7 +50,7 @@ public class PatientController {
     @PutMapping
     @Transactional
     public ResponseEntity<DataDetailsPatient> updatePatient(@RequestBody @Valid DataUpdatePatient data) {
-        var dto = patientService.udpate(data);
+        var dto = patientService.update(data);
         return ResponseEntity.ok(dto);
     }
 
