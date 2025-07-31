@@ -4,13 +4,13 @@ import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.domain.dto.DadosEndereco;
+import med.voll.api.domain.dto.DataAddress;
 
 @Embeddable
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Endereco {
+public class Address {
     private String logradouro;
     private String bairro;
     private String cep;
@@ -19,37 +19,37 @@ public class Endereco {
     private String cidade;
     private String uf;
 
-    public Endereco(DadosEndereco dados) {
-        this.logradouro = dados.logradouro();
-        this.bairro = dados.bairro();
-        this.cep = dados.cep();
-        this.numero = dados.numero();
-        this.complemento = dados.complemento();
-        this.cidade = dados.cidade();
-        this.uf = dados.uf();
+    public Address(DataAddress data) {
+        this.logradouro = data.logradouro();
+        this.bairro = data.bairro();
+        this.cep = data.cep();
+        this.numero = data.numero();
+        this.complemento = data.complemento();
+        this.cidade = data.cidade();
+        this.uf = data.uf();
     }
 
-    public void atualizarInformacoes(DadosEndereco dados) {
-        if (dados.logradouro() != null) {
-            this.logradouro = dados.logradouro();
+    public void updateInformation(DataAddress data) {
+        if (data.logradouro() != null) {
+            this.logradouro = data.logradouro();
         }
-        if (dados.bairro() != null) {
-            this.bairro = dados.bairro();
+        if (data.bairro() != null) {
+            this.bairro = data.bairro();
         }
-        if (dados.cep() != null) {
-            this.cep = dados.cep();
+        if (data.cep() != null) {
+            this.cep = data.cep();
         }
-        if (dados.numero() != null) {
-            this.numero = dados.numero();
+        if (data.numero() != null) {
+            this.numero = data.numero();
         }
-        if (dados.complemento() != null) {
-            this.complemento = dados.complemento();
+        if (data.complemento() != null) {
+            this.complemento = data.complemento();
         }
-        if (dados.cidade() != null) {
-            this.cidade = dados.cidade();
+        if (data.cidade() != null) {
+            this.cidade = data.cidade();
         }
-        if (dados.uf() != null) {
-            this.uf = dados.uf();
+        if (data.uf() != null) {
+            this.uf = data.uf();
         }
     }
 }
