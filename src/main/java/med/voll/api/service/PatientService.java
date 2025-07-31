@@ -1,48 +1,48 @@
 package med.voll.api.service;
 
-import med.voll.api.domain.Paciente;
-import med.voll.api.domain.dto.DadosDetalhamentoPaciente;
-import med.voll.api.domain.dto.DadosListPaciente;
-import med.voll.api.domain.dto.DadosPaciente;
-import med.voll.api.domain.dto.DadosUpdatePaciente;
-import med.voll.api.repository.PacienteRepository;
+import med.voll.api.domain.Patient;
+import med.voll.api.domain.dto.DataDetailsPatient;
+import med.voll.api.domain.dto.DataListPatient;
+import med.voll.api.domain.dto.DataPatient;
+import med.voll.api.domain.dto.DataUpdatePatient;
+import med.voll.api.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PacienteService {
+public class PatientService {
     @Autowired
-    private final PacienteRepository pacienteRepository;
+    private final PatientRepository patientRepository;
 
-    public PacienteService(PacienteRepository pacienteRepository) {
-        this.pacienteRepository = pacienteRepository;
+    public PatientService(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
     }
 
-    public DadosDetalhamentoPaciente cadastrar(DadosPaciente dados) {
-        var paciente = new Paciente(dados);
-        pacienteRepository.save(paciente);
-        return new DadosDetalhamentoPaciente(paciente);
+    public DataDetailsPatient create(DataPatient data) {
+        var patient = new Patient(data);
+        patientRepository.save(patient);
+        return new DataDetailsPatient(patient);
     }
 
-    public Page<DadosListPaciente> listarAll(Pageable pageable) {
-        return pacienteRepository.findByAtivoTrue(pageable).map(DadosListPaciente::new);
+    public Page<DataListPatient> findAll(Pageable pageable) {
+        return patientRepository.findByAtivoTrue(pageable).map(DataListPatient::new);
     }
 
-    public DadosDetalhamentoPaciente findPaciente(Long id) {
-        var paciente = pacienteRepository.getReferenceById(id);
-        return new DadosDetalhamentoPaciente(paciente);
+    public DataDetailsPatient findPatient(Long id) {
+        var patient = patientRepository.getReferenceById(id);
+        return new DataDetailsPatient(patient);
     }
 
-    public DadosDetalhamentoPaciente atualizar(DadosUpdatePaciente dados) {
-        var paciente = pacienteRepository.getReferenceById(dados.id());
-        paciente.atualizarDados(dados);
-        return new DadosDetalhamentoPaciente(paciente);
+    public DataDetailsPatient update(DataUpdatePatient data) {
+        var patient = patientRepository.getReferenceById(data.id());
+        patient.updateData(data);
+        return new DataDetailsPatient(patient);
     }
 
-    public void excluir(Long id) {
-        var paciente = pacienteRepository.getReferenceById(id);
-        paciente.excluir();
+    public void delete(Long id) {
+        var patient = patientRepository.getReferenceById(id);
+        patient.delete();
     }
 }
