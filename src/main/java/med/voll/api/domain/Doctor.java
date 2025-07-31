@@ -2,9 +2,9 @@ package med.voll.api.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import med.voll.api.dto.DadosMedico;
-import med.voll.api.dto.DadosUpdateMedico;
-import med.voll.api.dto.Especialidade;
+import med.voll.api.domain.dto.DadosMedico;
+import med.voll.api.domain.dto.DadosUpdateMedico;
+import med.voll.api.domain.dto.Especialidade;
 
 @Entity(name = "Medico")
 @Table(name = "medicos")

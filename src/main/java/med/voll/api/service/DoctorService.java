@@ -1,9 +1,10 @@
 package med.voll.api.service;
 
 import med.voll.api.domain.Medico;
-import med.voll.api.dto.DadosListMedico;
-import med.voll.api.dto.DadosMedico;
-import med.voll.api.dto.DadosUpdateMedico;
+import med.voll.api.domain.dto.DadosDetalhamentoMedico;
+import med.voll.api.domain.dto.DadosListMedico;
+import med.voll.api.domain.dto.DadosMedico;
+import med.voll.api.domain.dto.DadosUpdateMedico;
 import med.voll.api.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,17 +20,28 @@ public class MedicoService {
         this.medicoRepository = medicoRepository;
     }
 
-    public void cadastrar(DadosMedico dados) {
-        medicoRepository.save(new Medico(dados));
+    public DadosDetalhamentoMedico cadastrar(DadosMedico dados) {
+        var medico = new Medico(dados);
+        medicoRepository.save(medico);
+
+        return new DadosDetalhamentoMedico(medico);
     }
 
     public Page<DadosListMedico> listarAll(Pageable pageable) {
         return medicoRepository.findAllByAtivoTrue(pageable).map(DadosListMedico::new);
     }
 
-    public void atualizar(DadosUpdateMedico dados) {
+    public DadosDetalhamentoMedico findDoctor(Long id) {
+        var medico = medicoRepository.getReferenceById(id);
+
+        return new DadosDetalhamentoMedico(medico);
+    }
+
+    public DadosDetalhamentoMedico atualizar(DadosUpdateMedico dados) {
         var medico = medicoRepository.getReferenceById(dados.id());
         medico.atualizarInformacoes(dados);
+
+        return new DadosDetalhamentoMedico(medico);
     }
 
     public void excluir(Long id) {
