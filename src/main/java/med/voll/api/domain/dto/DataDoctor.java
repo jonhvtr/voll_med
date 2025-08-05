@@ -11,6 +11,6 @@ public record DataDoctor(
         @NotBlank(message = "{email.obrigatorio}") @Email(message = "{email.invalido}") String email,
         @NotBlank(message = "{telefone.obrigatorio}") @Pattern(regexp = "\\d{11}") String telefone,
         @NotBlank(message = "{crm.obrigatorio}") @Pattern(regexp = "\\d{4,6}", message = "{crm.invalido}") String crm,
-        @NotNull(message = "{especialidade.obrigatorio}") Specialty especialidade,
-        @NotNull(message = "{endereco.obrigatorio}") @Valid DataAddress endereco) {
+        @NotNull(message = "{especialidade.obrigatorio}") Speciality especialidade,
+        @NotNull(message = "{endereco.obrigatorio}") @Valid String cep) {
 }

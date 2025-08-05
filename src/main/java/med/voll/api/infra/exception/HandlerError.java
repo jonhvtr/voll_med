@@ -51,6 +51,12 @@ public class HandlerError {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: " + exception.getLocalizedMessage());
     }
 
+    @ExceptionHandler(VollException.class)
+    public ResponseEntity<?> handlerErrorBusinessRoles(VollException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
+    }
+
+
     private record DataValidationError(String field, String message) {
         DataValidationError(FieldError error) {
             this(error.getField(), error.getDefaultMessage());

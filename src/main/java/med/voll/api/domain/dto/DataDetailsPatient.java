@@ -6,7 +6,7 @@ import med.voll.api.domain.Patient;
 public record DataDetailsPatient(Long id, String nome, String email,
                                  String telefone,
                                  String cpf,
-                                 Address address) {
+                                 Address endereco) {
 
     public DataDetailsPatient(Patient patient) {
         this(patient.getId(), patient.getNome(), patient.getEmail(), patient.getTelefone(),
