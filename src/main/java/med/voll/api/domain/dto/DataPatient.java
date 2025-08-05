@@ -11,5 +11,5 @@ public record DataPatient(
         @NotBlank @Email String email,
         @NotBlank @Pattern(regexp = "\\d{11}") String telefone,
         @NotBlank @Pattern(regexp = "\\d{11}") String cpf,
-        @NotNull @Valid DataAddress endereco) {
+        @NotNull @Valid String cep) {
 }
