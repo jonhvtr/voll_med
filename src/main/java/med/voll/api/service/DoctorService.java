@@ -1,10 +1,8 @@
 package med.voll.api.service;
 
+import med.voll.api.domain.Address;
 import med.voll.api.domain.Doctor;
-import med.voll.api.domain.dto.DataDetailsDoctor;
-import med.voll.api.domain.dto.DataDoctor;
-import med.voll.api.domain.dto.DataListDoctor;
-import med.voll.api.domain.dto.DataUpdateDoctor;
+import med.voll.api.domain.dto.*;
 import med.voll.api.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,12 +14,18 @@ public class DoctorService {
     @Autowired
     private final DoctorRepository doctorRepository;
 
-    public DoctorService(DoctorRepository doctorRepository) {
+    @Autowired
+    private final CepService cepService;
+
+    public DoctorService(DoctorRepository doctorRepository, CepService cepService) {
         this.doctorRepository = doctorRepository;
+        this.cepService = cepService;
     }
 
     public DataDetailsDoctor create(DataDoctor data) {
-        var doctor = new Doctor(data);
+        DataCep dataCep = cepService.searchCep(data.cep());
+        var address = new Address(dataCep);
+        var doctor = new Doctor(data, address);
         doctorRepository.save(doctor);
 
         return new DataDetailsDoctor(doctor);
