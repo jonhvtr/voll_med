@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import med.voll.api.domain.dto.DataDoctor;
 import med.voll.api.domain.dto.DataUpdateDoctor;
-import med.voll.api.domain.dto.Specialty;
+import med.voll.api.domain.dto.Speciality;
 
 @Entity(name = "Doctor")
 @Table(name = "medicos")
@@ -23,21 +23,21 @@ public class Doctor {
     private String crm;
 
     @Enumerated(EnumType.STRING)
-    private Specialty especialidade;
+    private Speciality especialidade;
 
     @Embedded
     private Address endereco;
 
     private Boolean ativo;
 
-    public Doctor(DataDoctor data) {
+    public Doctor(DataDoctor data, Address endereco) {
         this.nome = data.nome();
         this.email = data.email();
         this.telefone = data.telefone();
         this.crm = data.crm();
         this.especialidade = data.especialidade();
         this.ativo = true;
-        this.endereco = new Address(data.endereco());
+        this.endereco = endereco;
     }
 
     public void updateInformation(DataUpdateDoctor data) {

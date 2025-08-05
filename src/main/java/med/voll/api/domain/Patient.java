@@ -26,12 +26,12 @@ public class Patient {
 
     private boolean ativo;
 
-    public Patient(DataPatient data) {
+    public Patient(DataPatient data, Address endereco) {
         this.nome = data.nome();
         this.email = data.email();
         this.telefone = data.telefone();
         this.cpf = data.cpf();
-        this.endereco = new Address(data.endereco());
+        this.endereco = endereco;
         this.ativo = true;
     }
 
