@@ -36,7 +36,7 @@ public class DoctorService {
     }
 
     public DataDetailsDoctor findDoctor(Long id) {
-        var doctor = doctorRepository.getReferenceById(id);
+        var doctor = doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Médico não encontrado"));
         return new DataDetailsDoctor(doctor);
     }
 
