@@ -33,8 +33,8 @@ public class Doctor {
     public Doctor(DataDoctor data, Address endereco) {
         this.nome = data.nome();
         this.email = data.email();
-        this.telefone = data.telefone();
         this.crm = data.crm();
+        this.telefone = data.telefone();
         this.especialidade = data.especialidade();
         this.ativo = true;
         this.endereco = endereco;

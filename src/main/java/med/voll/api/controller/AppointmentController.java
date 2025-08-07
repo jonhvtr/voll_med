@@ -3,7 +3,6 @@ package med.voll.api.controller;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import med.voll.api.domain.dto.DataCancelAppointment;
-import med.voll.api.domain.dto.DataDetailsAppointment;
 import med.voll.api.domain.dto.DataScheduleAppointment;
 import med.voll.api.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
