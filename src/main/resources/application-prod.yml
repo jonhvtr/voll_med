@@ -1,12 +1,17 @@
 spring:
+  application:
+    name: api
   datasource:
     url: ${DB_HOST}
     username: ${DB_USERNAME}
     password: ${DB_PASS}
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
 
 api:
-  cep:
-    url: https://viacep.com.br/ws/
   security:
     token:
       secret: ${JWT_SECRET}
