@@ -1,1 +1,1 @@
---alter table medicos DROP COLUMN cpf;
+alter table medicos DROP COLUMN cpf;

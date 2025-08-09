@@ -1,7 +1,6 @@
 package med.voll.api.controller;
 
 import med.voll.api.domain.Address;
-import med.voll.api.domain.Doctor;
 import med.voll.api.domain.Patient;
 import med.voll.api.domain.dto.*;
 import med.voll.api.repository.PatientRepository;
@@ -20,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
+@ActiveProfiles("test")
 class PatientControllerTest {
 
     @Autowired

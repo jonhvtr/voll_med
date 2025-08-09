@@ -1,3 +1,12 @@
 spring:
   datasource:
     url: ${DB_HOST}
+    username: ${DB_USERNAME}
+    password: ${DB_PASS}
+
+api:
+  cep:
+    url: https://viacep.com.br/ws/
+  security:
+    token:
+      secret: ${JWT_SECRET}
