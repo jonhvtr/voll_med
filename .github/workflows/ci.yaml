@@ -16,9 +16,9 @@ jobs:
       mysql:
         image: mysql:8
         env:
-          MYSQL_DATABASE: ${{secrets.MYSQL_DATABASE}}
-          MYSQL_USER: ${{secrets.MYSQL_USER}}
-          MYSQL_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
+          MYSQL_DATABASE: vollmed_api
+          MYSQL_USER: root
+          MYSQL_PASSWORD: salbutamol87
 
     steps:
       - uses: actions/checkout@v4
@@ -32,6 +32,11 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml -DskipTests
+        env:
+          DB_HOST: jdbc:mysql://localhost:3306/vollmed_api
+          DB_USERNAME: root
+          DB_PASSWORD: salbutamol87
+          JWT_SECRET: 12345678
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
