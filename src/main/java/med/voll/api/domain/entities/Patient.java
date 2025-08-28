@@ -30,7 +30,7 @@ public class Patient {
         this.nome = data.nome();
         this.email = data.email();
         this.telefone = data.telefone();
-        this.cpf = data.cpf();
+        setCpf(data.cpf());
         this.endereco = endereco;
         this.ativo = true;
     }
@@ -49,5 +49,14 @@ public class Patient {
 
     public void delete() {
         this.ativo = false;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf.replaceAll("\\D", "");
+    }
+
+    public String getCpf() {
+        return this.cpf.replaceFirst("(\\d{3})(\\d{3})(\\d{3})(\\d{2})",
+                "$1.$2.$3-$4");
     }
 }

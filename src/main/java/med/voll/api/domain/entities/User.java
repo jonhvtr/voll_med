@@ -2,6 +2,8 @@ package med.voll.api.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import med.voll.api.domain.dto.DataCreateUser;
+import med.voll.api.domain.enums.RoleName;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +14,7 @@ import java.util.List;
 @Entity(name = "User")
 @Table(name = "usuarios")
 @Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -22,6 +24,13 @@ public class User implements UserDetails {
     private Long id;
     private String login;
     private String senha;
+    private RoleName role;
+
+    public User(DataCreateUser data) {
+        this.login = data.login();
+        this.senha = data.senha();
+        this.role = RoleName.EMPLOYEE;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
