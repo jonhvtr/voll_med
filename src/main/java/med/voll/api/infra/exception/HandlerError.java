@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.security.sasl.AuthenticationException;
 import java.rmi.AccessException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class HandlerError {
@@ -41,9 +44,12 @@ public class HandlerError {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Falha de autenticação");
     }
 
-    @ExceptionHandler(AccessException.class)
-    public ResponseEntity<?> handlerErrorAccessDenied() {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado");
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, String>> handlerErrorAccessDenied() {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", "Acesso negado");
+        response.put("message", "Você não tem permissão para acessor este recurso");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
     @ExceptionHandler(Exception.class)

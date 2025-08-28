@@ -1,4 +1,4 @@
-package med.voll.api.domain;
+package med.voll.api.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +29,7 @@ public class Patient {
     public Patient(DataPatient data, Address endereco) {
         this.nome = data.nome();
         this.email = data.email();
-        this.telefone = data.telefone();
+        setTelefone(data.telefone());
         setCpf(data.cpf());
         this.endereco = endereco;
         this.ativo = true;
@@ -58,5 +58,13 @@ public class Patient {
     public String getCpf() {
         return this.cpf.replaceFirst("(\\d{3})(\\d{3})(\\d{3})(\\d{2})",
                 "$1.$2.$3-$4");
+    }
+
+    public String getTelefone() {
+        return telefone = telefone.replaceFirst("(\\d{2})(\\d{5})(\\d{4})", "($1) $2-$3");
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone.replaceAll("\\D", "");
     }
 }

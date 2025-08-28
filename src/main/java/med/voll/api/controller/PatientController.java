@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/paciente")
+@RequestMapping("/pacientes")
 @SecurityRequirement(name = "bearer-key")
 public class PatientController {
     @Autowired
@@ -32,7 +32,7 @@ public class PatientController {
     public ResponseEntity<DataDetailsPatient> createPatient(@RequestBody @Valid DataPatient data,
                                                         UriComponentsBuilder uriBuilder) {
         var patient = patientService.create(data);
-        var uri = uriBuilder.path("/patient/{id}").buildAndExpand(patient.id()).toUri();
+        var uri = uriBuilder.path("/pacientes/{id}").buildAndExpand(patient.id()).toUri();
         return ResponseEntity.created(uri).body(patient);
     }
 

@@ -1,6 +1,7 @@
 package med.voll.api.domain.dto;
 
-import med.voll.api.domain.Doctor;
+import med.voll.api.domain.entities.Doctor;
+import med.voll.api.domain.enums.Speciality;
 
 public record DataListDoctor(Long id, String nome, String email, String crm, Speciality especialidade) {
     public DataListDoctor(Doctor doctor) {
