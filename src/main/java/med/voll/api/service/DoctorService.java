@@ -1,7 +1,7 @@
 package med.voll.api.service;
 
-import med.voll.api.domain.Address;
-import med.voll.api.domain.Doctor;
+import med.voll.api.domain.entities.Address;
+import med.voll.api.domain.entities.Doctor;
 import med.voll.api.domain.dto.*;
 import med.voll.api.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;

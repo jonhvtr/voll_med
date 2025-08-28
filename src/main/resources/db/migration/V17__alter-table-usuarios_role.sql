@@ -1,0 +1,1 @@
+alter table usuarios_roles rename to usuarios_role;

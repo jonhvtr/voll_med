@@ -1,8 +1,9 @@
 package med.voll.api.controller;
 
-import med.voll.api.domain.Address;
-import med.voll.api.domain.Doctor;
+import med.voll.api.domain.entities.Address;
+import med.voll.api.domain.entities.Doctor;
 import med.voll.api.domain.dto.*;
+import med.voll.api.domain.enums.Speciality;
 import med.voll.api.repository.DoctorRepository;
 import med.voll.api.service.CepService;
 import med.voll.api.service.DoctorService;

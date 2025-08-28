@@ -1,7 +1,7 @@
 package med.voll.api.repository;
 
-import med.voll.api.domain.Doctor;
-import med.voll.api.domain.dto.Speciality;
+import med.voll.api.domain.entities.Doctor;
+import med.voll.api.domain.enums.Speciality;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

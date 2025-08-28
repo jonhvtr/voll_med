@@ -1,11 +1,10 @@
 package med.voll.api.repository;
 
-import med.voll.api.domain.Address;
-import med.voll.api.domain.Appointment;
-import med.voll.api.domain.Doctor;
-import med.voll.api.domain.Patient;
-import med.voll.api.domain.dto.*;
-import med.voll.api.service.CepService;
+import med.voll.api.domain.entities.Address;
+import med.voll.api.domain.entities.Appointment;
+import med.voll.api.domain.entities.Doctor;
+import med.voll.api.domain.entities.Patient;
+import med.voll.api.domain.enums.Speciality;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,20 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatPath;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
 @DataJpaTest

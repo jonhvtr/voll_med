@@ -1,7 +1,7 @@
 package med.voll.api.service;
 
-import med.voll.api.domain.Appointment;
-import med.voll.api.domain.Doctor;
+import med.voll.api.domain.entities.Appointment;
+import med.voll.api.domain.entities.Doctor;
 import med.voll.api.domain.dto.DataCancelAppointment;
 import med.voll.api.domain.dto.DataDetailsAppointment;
 import med.voll.api.domain.dto.DataScheduleAppointment;

@@ -2,7 +2,7 @@ package med.voll.api.controller;
 
 import med.voll.api.domain.dto.DataDetailsAppointment;
 import med.voll.api.domain.dto.DataScheduleAppointment;
-import med.voll.api.domain.dto.Speciality;
+import med.voll.api.domain.enums.Speciality;
 import med.voll.api.service.AppointmentService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

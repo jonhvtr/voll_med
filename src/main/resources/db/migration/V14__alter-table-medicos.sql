@@ -1,0 +1,1 @@
+alter table medicos modify column crm varchar(8);

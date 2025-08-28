@@ -1,10 +1,10 @@
-package med.voll.api.domain;
+package med.voll.api.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
 import med.voll.api.domain.dto.DataDoctor;
 import med.voll.api.domain.dto.DataUpdateDoctor;
-import med.voll.api.domain.dto.Speciality;
+import med.voll.api.domain.enums.Speciality;
 
 @Entity(name = "Doctor")
 @Table(name = "medicos")
@@ -33,8 +33,8 @@ public class Doctor {
     public Doctor(DataDoctor data, Address endereco) {
         this.nome = data.nome();
         this.email = data.email();
-        this.crm = data.crm();
-        this.telefone = data.telefone();
+        setCrm(data.crm());
+        setTelefone(data.telefone());
         this.especialidade = data.especialidade();
         this.ativo = true;
         this.endereco = endereco;
@@ -55,4 +55,23 @@ public class Doctor {
     public void delete() {
         this.ativo = false;
     }
+
+    public String getTelefone() {
+        return telefone = telefone.replaceFirst("(\\d{2})(\\d{5})(\\d{4})", "($1) $2-$3");
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone.replaceAll("\\D", "");
+    }
+
+    public String getCrm() {
+        return crm.matches("\\d{4,6}[A-Z]{2}")
+                ? crm.replaceFirst("(\\d{4,6})([A-Z]{2})", "CRM $1/$2")
+                : "CRM " + crm;
+    }
+
+    public void setCrm(String crm) {
+        this.crm = crm.replaceAll("\\s", "");
+    }
+
 }

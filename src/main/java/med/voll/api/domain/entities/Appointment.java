@@ -1,12 +1,12 @@
-package med.voll.api.domain;
+package med.voll.api.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.domain.dto.ReasonCancellation;
-import med.voll.api.domain.dto.Speciality;
+import med.voll.api.domain.enums.ReasonCancellation;
+import med.voll.api.domain.enums.Speciality;
 
 import java.time.LocalDateTime;
 

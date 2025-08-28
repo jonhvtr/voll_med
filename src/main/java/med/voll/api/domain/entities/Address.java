@@ -1,4 +1,4 @@
-package med.voll.api.domain;
+package med.voll.api.domain.entities;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class Address {
     public Address(DataCep data) {
         this.logradouro = data.logradouro();
         this.bairro = data.bairro();
-        this.cep = data.cep();
+        setCep(data.cep());
         this.complemento = data.complemento();
         this.cidade = data.cidade();
         this.uf = data.uf();
@@ -51,5 +51,13 @@ public class Address {
         if (data.uf() != null) {
             this.uf = data.uf();
         }
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep.replaceAll("\\D", "");
+    }
+
+    public String getCep() {
+        return cep.replaceFirst("(\\d{5})(\\d{3})", "$1-$2");
     }
 }

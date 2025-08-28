@@ -1,7 +1,7 @@
 package med.voll.api.domain.dto;
 
-import med.voll.api.domain.Address;
-import med.voll.api.domain.Patient;
+import med.voll.api.domain.entities.Address;
+import med.voll.api.domain.entities.Patient;
 
 public record DataDetailsPatient(Long id, String nome, String email,
                                  String telefone,

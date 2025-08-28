@@ -1,18 +1,21 @@
-package med.voll.api.domain;
+package med.voll.api.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import med.voll.api.domain.dto.DataCreateUser;
+import med.voll.api.domain.enums.RoleName;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "User")
 @Table(name = "usuarios")
 @Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -23,9 +26,17 @@ public class User implements UserDetails {
     private String login;
     private String senha;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> role;
+
+    public User(DataCreateUser data) {
+        this.login = data.login();
+        this.senha = data.senha();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return role.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole().name())).toList();
     }
 
     @Override

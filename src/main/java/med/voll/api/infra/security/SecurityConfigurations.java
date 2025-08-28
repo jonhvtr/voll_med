@@ -21,16 +21,47 @@ public class SecurityConfigurations {
     @Autowired
     private SecurityFilter securityFilter;
 
+    public static final String[] ENDPOINT_WITH_AUTHENTICATION_NOT_REQUIRE = {
+            "/user/login",
+            "/v3/api-docs/**",
+            "/swagger-ui.html",
+            "/swagger-ui/**"
+    };
+
+    public static final String[] ENDPOINT_GET_WITH_AUTHENTICATION_REQUIRE_ADMIN_AND_EMPLOYEE = {
+            "/medicos",
+            "/medicos/*",
+            "/pacientes",
+            "/pacientes/*"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers(HttpMethod.POST, "/login").permitAll()
-                                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/medicos").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("ADMIN")
+                        authorize
+                                // group
+                                .requestMatchers(ENDPOINT_WITH_AUTHENTICATION_NOT_REQUIRE).permitAll()
+                                .requestMatchers(HttpMethod.GET, ENDPOINT_GET_WITH_AUTHENTICATION_REQUIRE_ADMIN_AND_EMPLOYEE).hasAnyRole("EMPLOYEE", "ADMIN")
+
+                                // register
+                                .requestMatchers(HttpMethod.POST, "/user/register").hasRole("ADMIN")
+
+                                // medicos
+                                .requestMatchers(HttpMethod.POST, "/medicos").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/medicos").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/medicos/*").hasRole("ADMIN")
+
+                                // pacientes
+                                .requestMatchers(HttpMethod.POST, "/pacientes").hasAnyRole("EMPLOYEE", "ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/pacientes").hasAnyRole("EMPLOYEE", "ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/pacientes/*").hasRole("ADMIN")
+
+                                // consultas
+                                .requestMatchers(HttpMethod.POST, "/consultas").hasAnyRole("EMPLOYEE", "ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/conusultas").hasAnyRole("EMPLOYEE", "ADMIN")
                                 .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
