@@ -1,4 +1,4 @@
-package med.voll.api.domain;
+package med.voll.api.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "User")
 @Table(name = "usuarios")
@@ -24,17 +25,18 @@ public class User implements UserDetails {
     private Long id;
     private String login;
     private String senha;
-    private RoleName role;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> role;
 
     public User(DataCreateUser data) {
         this.login = data.login();
         this.senha = data.senha();
-        this.role = RoleName.EMPLOYEE;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return role.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole().name())).toList();
     }
 
     @Override
