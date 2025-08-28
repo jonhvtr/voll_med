@@ -10,15 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      JWT_SECRET: ${{secrets.JWT_TOKEN}}
+      DB_HOST: localhost
+      DB_PORT: 3306
+      DB_NAME: ${{ secrets.MYSQL_DATABASE }}
+      DB_USER: ${{ secrets.MYSQL_USER }}
+      DB_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
     services:
       mysql:
         image: mysql:8
         env:
-          MYSQL_DATABASE: vollmed_api
-          MYSQL_USER: root
-          MYSQL_PASSWORD: salbutamol87
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h localhost -p${{ secrets.MYSQL_ROOT_PASSWORD }}"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
@@ -32,11 +45,6 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml -DskipTests
-        env:
-          DB_HOST: jdbc:mysql://localhost:3306/vollmed_api
-          DB_USERNAME: root
-          DB_PASSWORD: salbutamol87
-          JWT_SECRET: 12345678
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -54,4 +62,4 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/fc2.0-ci-java:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/vollmed_api:latest
