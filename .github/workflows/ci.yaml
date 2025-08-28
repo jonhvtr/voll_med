@@ -9,6 +9,17 @@ jobs:
   check-application:
     runs-on: ubuntu-latest
 
+    env:
+      JWT_SECRET: ${{secrets.JWT_TOKEN}}
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_DATABASE: ${{secrets.MYSQL_DATABASE}}
+          MYSQL_USER: ${{secrets.MYSQL_USER}}
+          MYSQL_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
+
     steps:
       - uses: actions/checkout@v4
 
