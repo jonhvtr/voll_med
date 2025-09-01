@@ -1,0 +1,1 @@
+ALTER TABLE medicos ALTER COLUMN telefone TYPE VARCHAR(11);

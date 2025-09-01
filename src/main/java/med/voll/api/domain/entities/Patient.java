@@ -5,6 +5,9 @@ import lombok.*;
 import med.voll.api.domain.dto.DataPatient;
 import med.voll.api.domain.dto.DataUpdatePatient;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 @Entity(name = "Patient")
 @Table(name = "pacientes")
 @Getter
@@ -12,10 +15,12 @@ import med.voll.api.domain.dto.DataUpdatePatient;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Patient {
+public class Patient implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String nome;
     private String email;
     private String telefone;
@@ -40,7 +45,7 @@ public class Patient {
             this.nome = data.nome();
         }
         if (data.telefone() != null) {
-            this.telefone = data.telefone();
+            setTelefone(data.telefone());
         }
         if (data.endereco() != null) {
             this.endereco.updateInformation(data.endereco());
@@ -50,6 +55,8 @@ public class Patient {
     public void delete() {
         this.ativo = false;
     }
+
+    public void reativar() {this.ativo = true;}
 
     public void setCpf(String cpf) {
         this.cpf = cpf.replaceAll("\\D", "");
@@ -61,7 +68,7 @@ public class Patient {
     }
 
     public String getTelefone() {
-        return telefone = telefone.replaceFirst("(\\d{2})(\\d{5})(\\d{4})", "($1) $2-$3");
+        return telefone.replaceFirst("(\\d{2})(\\d{5})(\\d{4})", "($1) $2-$3");
     }
 
     public void setTelefone(String telefone) {

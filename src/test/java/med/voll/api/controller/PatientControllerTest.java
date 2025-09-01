@@ -24,6 +24,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -90,7 +91,7 @@ class PatientControllerTest {
     void listAllScenario1() throws Exception {
         var pageable = PageRequest.of(0, 10, Sort.by("nome"));
         var patient = new Patient(
-                1L,
+                UUID.randomUUID(),
                 "Joao",
                 "joao@email.com",
                 "21999999999",

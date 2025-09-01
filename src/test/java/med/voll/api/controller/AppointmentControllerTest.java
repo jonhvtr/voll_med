@@ -19,6 +19,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,14 +60,18 @@ class AppointmentControllerTest {
     void scheduleScenario2() throws Exception {
         var date = LocalDateTime.now().plusHours(1);
         var speciality = Speciality.CARDIOLOGIA;
-        var dataDetails = new DataDetailsAppointment(null, 2l, 5l, speciality, date);
+        String patient = "Jorge";
+        String doctor = "Dr. Carlos";
+        var dataDetails = new DataDetailsAppointment(null, patient, doctor, speciality, date);
+        UUID doctorId = UUID.randomUUID();
+        UUID patientId = UUID.randomUUID();
 
         when(appointmentService.schedule(any())).thenReturn(dataDetails);
 
         var response = mockMvc.perform(post("/consultas")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(dataScheduleAppointmentJacksonTester.write(
-                                new DataScheduleAppointment(2l, 5l, speciality, date)
+                                new DataScheduleAppointment(doctorId, patientId, speciality, date)
                         ).getJson()))
                 .andReturn().getResponse();
 

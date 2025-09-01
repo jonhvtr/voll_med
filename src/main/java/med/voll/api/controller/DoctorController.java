@@ -2,10 +2,7 @@ package med.voll.api.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
-import med.voll.api.domain.dto.DataDetailsDoctor;
-import med.voll.api.domain.dto.DataDoctor;
-import med.voll.api.domain.dto.DataListDoctor;
-import med.voll.api.domain.dto.DataUpdateDoctor;
+import med.voll.api.domain.dto.*;
 import med.voll.api.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/medicos")
@@ -42,8 +41,14 @@ public class DoctorController {
         return ResponseEntity.ok(page);
     }
 
+    @GetMapping("/desativado")
+    public ResponseEntity<Page<DataListDoctor>> listDisabledDoctor(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
+        var page = doctorService.findDisableDoctor(pageable);
+        return ResponseEntity.ok(page);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<DataDetailsDoctor> detailsDoctor(@PathVariable Long id) {
+    public ResponseEntity<DataDetailsDoctor> detailsDoctor(@PathVariable UUID id) {
         var doctorUrl = doctorService.findDoctor(id);
         return ResponseEntity.ok(doctorUrl);
     }
@@ -55,9 +60,16 @@ public class DoctorController {
         return ResponseEntity.ok(dto);
     }
 
+    @PutMapping("/reativar")
+    @Transactional
+    public ResponseEntity<?> reactivateDoctor(@RequestBody DataReactivateRequest data) {
+        doctorService.reactivate(data.id());
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> deleteDoctor(@PathVariable Long id) {
+    public ResponseEntity<?> deleteDoctor(@PathVariable UUID id) {
         doctorService.delete(id);
         return ResponseEntity.noContent().build();
     }

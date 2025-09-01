@@ -36,7 +36,7 @@ class DoctorRepositoryTest {
 
     @BeforeEach
     void cleanDB() {
-        entityManager.getEntityManager().createQuery("DELETE FROM Consulta").executeUpdate();
+        entityManager.getEntityManager().createQuery("DELETE FROM Appointment").executeUpdate();
         entityManager.getEntityManager().createQuery("DELETE FROM Patient").executeUpdate();
         entityManager.getEntityManager().createQuery("DELETE FROM Doctor").executeUpdate();
     }

@@ -2,10 +2,7 @@ package med.voll.api.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
-import med.voll.api.domain.dto.DataDetailsPatient;
-import med.voll.api.domain.dto.DataListPatient;
-import med.voll.api.domain.dto.DataPatient;
-import med.voll.api.domain.dto.DataUpdatePatient;
+import med.voll.api.domain.dto.*;
 import med.voll.api.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/pacientes")
@@ -43,10 +42,23 @@ public class PatientController {
         return ResponseEntity.ok().body(patients);
     }
 
+    @GetMapping("/especifico")
+    public ResponseEntity<DataDetailsPatient> findByNamePatient(@RequestBody DataNamePatient data) {
+        var patient = patientService.findByNamePatient(data);
+        return ResponseEntity.ok(patient);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<DataDetailsPatient> detailsPatient(@PathVariable Long id) {
+    public ResponseEntity<DataDetailsPatient> detailsPatient(@PathVariable UUID id) {
         var patient = patientService.findPatient(id);
         return ResponseEntity.ok().body(patient);
+    }
+
+    @GetMapping("/desativado")
+    public ResponseEntity<Page<DataListPatient>> findReactivatePatiente(@PageableDefault(size = 10, sort = {"nome"})
+                                                                            Pageable pageable) {
+        var patients = patientService.findDisabledPatient(pageable);
+        return ResponseEntity.ok().body(patients);
     }
 
     @PutMapping
@@ -56,9 +68,16 @@ public class PatientController {
         return ResponseEntity.ok(dto);
     }
 
+    @PutMapping("/reativar")
+    @Transactional
+    public ResponseEntity<?> reactivatePatient(@RequestBody DataReactivateRequest data) {
+        patientService.reactivatePatient(data.id());
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> deletePatient(@PathVariable Long id) {
+    public ResponseEntity<?> deletePatient(@PathVariable UUID id) {
         patientService.delete(id);
         return ResponseEntity.noContent().build();
     }

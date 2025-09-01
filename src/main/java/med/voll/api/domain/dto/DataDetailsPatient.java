@@ -3,7 +3,9 @@ package med.voll.api.domain.dto;
 import med.voll.api.domain.entities.Address;
 import med.voll.api.domain.entities.Patient;
 
-public record DataDetailsPatient(Long id, String nome, String email,
+import java.util.UUID;
+
+public record DataDetailsPatient(UUID id, String nome, String email,
                                  String telefone,
                                  String cpf,
                                  Address endereco) {
