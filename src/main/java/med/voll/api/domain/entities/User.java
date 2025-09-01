@@ -3,14 +3,14 @@ package med.voll.api.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import med.voll.api.domain.dto.DataCreateUser;
-import med.voll.api.domain.enums.RoleName;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+import java.util.UUID;
 
 @Entity(name = "User")
 @Table(name = "usuarios")
@@ -19,10 +19,12 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String login;
     private String senha;
 

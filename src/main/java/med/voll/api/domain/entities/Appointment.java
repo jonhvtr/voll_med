@@ -10,7 +10,6 @@ import med.voll.api.domain.enums.Speciality;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Entity(name = "Consulta")
@@ -19,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Consulta implements Serializable {
+public class Appointment implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
