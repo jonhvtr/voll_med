@@ -1,0 +1,3 @@
+ALTER TABLE usuarios_role DROP COLUMN role_id CASCADE;
+
+ALTER TABLE usuarios_role ADD COLUMN role_id BIGSERIAL NOT NULL;
