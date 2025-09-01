@@ -32,7 +32,11 @@ public class SecurityConfigurations {
             "/medicos",
             "/medicos/*",
             "/pacientes",
-            "/pacientes/*"
+            "/pacientes/*",
+            "/pacientes/desativado",
+            "/pacientes/especifico",
+            "/consultas/mes",
+            "/consultas/medico/mes"
     };
 
     @Bean
@@ -53,15 +57,18 @@ public class SecurityConfigurations {
                                 .requestMatchers(HttpMethod.POST, "/medicos").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/medicos").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/medicos/*").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/medicos/reativar").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/medicos/desativado").hasRole("ADMIN")
 
                                 // pacientes
                                 .requestMatchers(HttpMethod.POST, "/pacientes").hasAnyRole("EMPLOYEE", "ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/pacientes").hasAnyRole("EMPLOYEE", "ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/pacientes/*").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/pacientes/*").hasAnyRole("EMPLOYEE", "ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/pacientes/reativar").hasAnyRole("EMPLOYEE", "ADMIN")
 
                                 // consultas
                                 .requestMatchers(HttpMethod.POST, "/consultas").hasAnyRole("EMPLOYEE", "ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/conusultas").hasAnyRole("EMPLOYEE", "ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/consultas").hasAnyRole("EMPLOYEE", "ADMIN")
                                 .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
