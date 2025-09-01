@@ -6,6 +6,9 @@ import med.voll.api.domain.dto.DataDoctor;
 import med.voll.api.domain.dto.DataUpdateDoctor;
 import med.voll.api.domain.enums.Speciality;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 @Entity(name = "Doctor")
 @Table(name = "medicos")
 @Getter
@@ -13,10 +16,12 @@ import med.voll.api.domain.enums.Speciality;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Doctor {
+public class Doctor implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String nome;
     private String email;
     private String telefone;
@@ -45,7 +50,7 @@ public class Doctor {
             this.nome = data.nome();
         }
         if (data.telefone() != null) {
-            this.telefone = data.telefone();
+            setTelefone(data.telefone());
         }
         if (data.endereco() != null) {
             this.endereco.updateInformation(data.endereco());
@@ -56,8 +61,10 @@ public class Doctor {
         this.ativo = false;
     }
 
+    public void reativar() {this.ativo = true;}
+
     public String getTelefone() {
-        return telefone = telefone.replaceFirst("(\\d{2})(\\d{5})(\\d{4})", "($1) $2-$3");
+        return telefone.replaceFirst("(\\d{2})(\\d{5})(\\d{4})", "($1) $2-$3");
     }
 
     public void setTelefone(String telefone) {
