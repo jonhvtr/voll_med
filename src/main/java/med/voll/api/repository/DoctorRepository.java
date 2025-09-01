@@ -8,9 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     Page<Doctor> findAllByAtivoTrue(Pageable pageable);
+
+    Page<Doctor> findAllByAtivoFalse(Pageable pageable);
 
     @Query("""
             select d from Doctor d
@@ -26,7 +30,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
                 and
                 c.motivoCancelamento is null
             )
-            order by rand()
+            order by function ('random')
             limit 1
             """)
     Doctor chooseRandomDoctor(Speciality speciality, LocalDateTime date);
@@ -36,5 +40,11 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
             from Doctor d
             where d.id = :idDoctor
             """)
-    Boolean findAtivoById(Long idDoctor);
+    Boolean findAtivoById(UUID idDoctor);
+
+    boolean existsById(UUID uuid);
+
+    Doctor getReferenceById(UUID uuid);
+
+    Optional<Doctor> findById(UUID id);
 }
