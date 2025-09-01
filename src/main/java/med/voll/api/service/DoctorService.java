@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class DoctorService {
     @Autowired
@@ -35,9 +37,13 @@ public class DoctorService {
         return doctorRepository.findAllByAtivoTrue(pageable).map(DataListDoctor::new);
     }
 
-    public DataDetailsDoctor findDoctor(Long id) {
+    public DataDetailsDoctor findDoctor(UUID id) {
         var doctor = doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Médico não encontrado"));
         return new DataDetailsDoctor(doctor);
+    }
+
+    public Page<DataListDoctor> findDisableDoctor(Pageable pageable) {
+        return doctorRepository.findAllByAtivoFalse(pageable).map(DataListDoctor::new);
     }
 
     public DataDetailsDoctor update(DataUpdateDoctor data) {
@@ -47,7 +53,12 @@ public class DoctorService {
         return new DataDetailsDoctor(doctor);
     }
 
-    public void delete(Long id) {
+    public void reactivate(UUID id) {
+        var doctor = doctorRepository.getReferenceById(id);
+        doctor.reativar();
+    }
+
+    public void delete(UUID id) {
         var doctor = doctorRepository.getReferenceById(id);
         doctor.delete();
     }
