@@ -3,8 +3,10 @@ package med.voll.api.domain.dto;
 import jakarta.validation.constraints.NotNull;
 import med.voll.api.domain.enums.ReasonCancellation;
 
+import java.util.UUID;
+
 public record DataCancelAppointment(
-        @NotNull Long idAppointment,
+        @NotNull UUID idAppointment,
         @NotNull ReasonCancellation reason
-        ) {
+) {
 }
