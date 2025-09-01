@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
 @ActiveProfiles("test")
-class ConsultaControllerTest {
+class AppointmentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
