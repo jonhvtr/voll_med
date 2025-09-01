@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.UUID;
 
 @Service
 public class PatientService {
@@ -34,9 +37,18 @@ public class PatientService {
         return patientRepository.findByAtivoTrue(pageable).map(DataListPatient::new);
     }
 
-    public DataDetailsPatient findPatient(Long id) {
+    public DataDetailsPatient findByNamePatient(@RequestBody DataNamePatient data) {
+        var patient = patientRepository.findByNomeIgnoreCase(data.nome()).orElseThrow(() -> new RuntimeException("Paciente não encontrado!"));
+        return new DataDetailsPatient(patient);
+    }
+
+    public DataDetailsPatient findPatient(UUID id) {
         var patient = patientRepository.getReferenceById(id);
         return new DataDetailsPatient(patient);
+    }
+
+    public Page<DataListPatient> findDisabledPatient(Pageable pageable) {
+        return patientRepository.findByAtivoFalse(pageable).map(DataListPatient::new);
     }
 
     public DataDetailsPatient update(DataUpdatePatient data) {
@@ -45,7 +57,12 @@ public class PatientService {
         return new DataDetailsPatient(patient);
     }
 
-    public void delete(Long id) {
+    public void reactivatePatient(UUID id) {
+        var patient = patientRepository.getReferenceById(id);
+        patient.reativar();
+    }
+
+    public void delete(UUID id) {
         var patient = patientRepository.getReferenceById(id);
         patient.delete();
     }
